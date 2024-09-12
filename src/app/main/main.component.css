@@ -1,0 +1,35 @@
+html,
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 100px;
+}
+
+.card {
+  width: 500px;
+  height: auto;
+  background: none;
+  border-radius: 1rem;
+  border-color: white;
+}
+.img {
+  text-align: center;
+}
+
+.img img {
+  width: 400px;
+  display: block;
+  margin: 0 auto;
+}
+
+.img .btn {
+  display: block;
+  width: 300px;
+  height: 50px;
+  margin: 10px auto 0; /* Ajuste conforme necessário */
+  margin-bottom: 70px;
+  font-size: larger;
+}

@@ -1,0 +1,136 @@
+import { Injectable } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { Router } from "@angular/router";
+import firebase from "firebase/compat/app";
+
+@Injectable({
+  providedIn: "root",
+})
+export class AuthService {
+  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+
+  // Método de login com e-mail e senha
+  login(email: string, password: string) {
+    return this.afAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        console.log("Usuário logado com e-mail e senha:", result.user);
+        this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
+      })
+      .catch((error) => {
+        this.handleAuthError(error); // Usa o método de tratamento de erros
+      });
+  }
+
+  // Método para login com Google
+  loginWithGoogle() {
+    return this.afAuth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then((result) => {
+        console.log("Usuário logado com Google:", result.user);
+        this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
+      })
+      .catch((error) => {
+        this.handleAuthError(error); // Usa o método de tratamento de erros
+      });
+  }
+
+  // Método de logout
+  logout() {
+    return this.afAuth.signOut().then(() => {
+      this.router.navigate(["/login"]); // Redireciona para a tela de login após logout
+    });
+  }
+
+  // Verifica se o usuário está autenticado
+  isAuthenticated() {
+    return this.afAuth.authState; // Retorna o estado atual da autenticação
+  }
+
+  // Tratamento de erros de autenticação
+  private handleAuthError(error: any) {
+    switch (error.code) {
+      case "auth/invalid-credential":
+        console.error(
+          "As credenciais de autenticação são inválidas ou expiraram."
+        );
+        alert(
+          "As credenciais de autenticação são inválidas ou expiraram. Tente novamente."
+        );
+        break;
+      case "auth/user-not-found":
+        console.error("Usuário não encontrado.");
+        alert("Usuário não encontrado. Verifique suas credenciais.");
+        break;
+      case "auth/wrong-password":
+        console.error("Senha incorreta.");
+        alert("Senha incorreta. Tente novamente.");
+        break;
+      case "auth/too-many-requests":
+        console.error(
+          "Muitas tentativas de login. Tente novamente mais tarde."
+        );
+        alert("Muitas tentativas de login. Tente novamente mais tarde.");
+        break;
+      default:
+        console.error("Erro de autenticação:", error.message);
+        alert("Erro ao tentar autenticar: " + error.message);
+        break;
+    }
+  }
+}
+
+/*import { Injectable } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+
+import { Router } from "@angular/router";
+import firebase from "firebase/compat/app";
+
+@Injectable({
+  providedIn: "root",
+})
+export class AuthService {
+  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+
+  login(email: string, password: string) {
+    return this.afAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  // Método para login com Google
+  loginWithGoogle() {
+    return this.afAuth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then((result) => {
+        console.log("Usuário logado com Google:", result.user);
+        this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
+      })
+      .catch((error) => {
+        console.log("Erro ao fazer login com Google:", error);
+      });
+  }
+
+  logout() {
+    return this.afAuth.signOut().then(() => {
+      this.router.navigate(["/login"]);
+    });
+  }
+
+  isAuthenticated() {
+    return this.afAuth.authState;
+  }
+
+  // Tratamento de erros de autenticação
+  private handleAuthError(error: any) {
+    if (error.code === "auth/invalid-credential") {
+      console.error(
+        "As credenciais de autenticação são inválidas ou expiraram."
+      );
+      alert(
+        "As credenciais de autenticação são inválidas ou expiraram. Tente novamente."
+      );
+    } else {
+      console.error("Erro de autenticação:", error.message);
+      alert("Erro ao tentar autenticar: " + error.message);
+    }
+  }
+}*/

@@ -1,0 +1,115 @@
+<!--<h1>Login Teste</h1>
+<button (click)="loginWithGoogle()">Login com Google</button>
+<form (ngSubmit)="login()">
+  <input
+    type="email"
+    [(ngModel)]="email"
+    name="email"
+    placeholder="Email"
+    required
+  />
+  <input
+    type="password"
+    [(ngModel)]="password"
+    name="password"
+    placeholder="Senha"
+    required
+  />
+  <button type="submit">Login</button>
+</form>-->
+<!---->
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <p class="text-white-50 mb-5">
+                Please enter your login and password!
+              </p>
+              <!-- Mensagem de erro -->
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+              </div>
+
+              <!-- Início do form-->
+              <form form #form="ngForm" (ngSubmit)="login(form)">
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input
+                    type="email"
+                    [(ngModel)]="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    id="typeEmailX"
+                    class="form-control form-control-lg"
+                    #emailInput="ngModel"
+                  />
+                  <label class="form-label" for="typeEmailX">Email</label>
+                  <!-- Exibe mensagem de erro de validação -->
+                  <div
+                    *ngIf="emailInput.invalid && emailInput.touched"
+                    class="text-danger"
+                  >
+                    Por favor, insira um e-mail válido.
+                  </div>
+                </div>
+
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input
+                    type="password"
+                    [(ngModel)]="password"
+                    name="password"
+                    placeholder="Senha"
+                    required
+                    id="typePasswordX"
+                    class="form-control form-control-lg"
+                    #passwordInput="ngModel"
+                    minlength="6"
+                  />
+                  <label class="form-label" for="typePasswordX">Password</label>
+                  <!-- Exibe mensagem de erro de validação -->
+                  <div
+                    *ngIf="passwordInput.invalid && passwordInput.touched"
+                    class="text-danger"
+                  >
+                    A senha deve ter no mínimo 6 caracteres.
+                  </div>
+                </div>
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">
+                  Login
+                </button>
+              </form>
+              <p class="small mb-5 pb-lg-2">
+                <a class="text-white-50" href="#!">Forgot password?</a>
+              </p>
+
+              <button (click)="loginWithGoogle()">Login com Google</button>
+
+              <div class="d-flex justify-content-center text-center mt-4 pt-1">
+                <a href="#!" class="text-white"
+                  ><i class="fab fa-facebook-f fa-lg"></i
+                ></a>
+                <a href="#!" class="text-white"
+                  ><i class="fab fa-twitter fa-lg mx-4 px-2"></i
+                ></a>
+                <a href="#!" class="text-white"
+                  ><i class="fab fa-google fa-lg"></i
+                ></a>
+              </div>
+            </div>
+
+            <div>
+              <p class="mb-0">
+                Don't have an account?
+                <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
