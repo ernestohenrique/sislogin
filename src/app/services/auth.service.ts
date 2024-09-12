@@ -28,6 +28,7 @@ export class AuthService {
 
   // Método para login com Google
   loginWithGoogle() {
+    /*
     return this.afAuth
       .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
       .then(() => {
@@ -41,7 +42,7 @@ export class AuthService {
       .catch((error) => {
         this.handleAuthError(error); // Usa o método de tratamento de erros
       });
-    /*
+    ?*/
     return this.afAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
@@ -50,7 +51,7 @@ export class AuthService {
       })
       .catch((error) => {
         this.handleAuthError(error); // Usa o método de tratamento de erros
-      });*/
+      });
   }
 
   // Método de logout
