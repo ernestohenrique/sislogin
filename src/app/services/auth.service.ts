@@ -29,6 +29,20 @@ export class AuthService {
   // Método para login com Google
   loginWithGoogle() {
     return this.afAuth
+      .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+      .then(() => {
+        this.afAuth.getRedirectResult().then((result) => {
+          if (result.user) {
+            console.log("Usuário logado com Google:", result.user);
+            this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
+          }
+        });
+      })
+      .catch((error) => {
+        this.handleAuthError(error); // Usa o método de tratamento de erros
+      });
+    /*
+    return this.afAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
         console.log("Usuário logado com Google:", result.user);
@@ -36,7 +50,7 @@ export class AuthService {
       })
       .catch((error) => {
         this.handleAuthError(error); // Usa o método de tratamento de erros
-      });
+      });*/
   }
 
   // Método de logout

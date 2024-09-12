@@ -4,32 +4,71 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0; /* Remover o padding inicial */
   margin: 0;
-  padding: 100px;
 }
 
 .card {
-  width: 500px;
-  height: auto;
+  width: 90%; /* Deixe responsivo para telas menores */
+  max-width: 500px; /* Limite o tamanho para telas grandes */
   background: none;
   border-radius: 1rem;
-  border-color: white;
+  border: 2px solid white; /* Ajuste da borda */
+  padding: 20px;
 }
+
 .img {
   text-align: center;
 }
 
 .img img {
-  width: 400px;
+  width: 100%; /* Para manter o tamanho responsivo */
+  max-width: 400px; /* Tamanho máximo da imagem */
   display: block;
   margin: 0 auto;
 }
 
 .img .btn {
   display: block;
-  width: 300px;
+  width: 100%; /* Botão responsivo */
+  max-width: 300px; /* Tamanho máximo do botão */
   height: 50px;
-  margin: 10px auto 0; /* Ajuste conforme necessário */
+  margin: 10px auto 0;
   margin-bottom: 70px;
   font-size: larger;
+}
+
+/* Telas menores que 700px */
+@media (max-width: 700px) {
+  .card {
+    width: 90%;
+    max-width: 400px; /* Reduz a largura máxima */
+  }
+
+  .img img {
+    width: 100%;
+    max-width: 200px; /* Reduz o tamanho máximo da imagem */
+  }
+
+  .img .btn {
+    font-size: 1rem;
+  }
+}
+
+/* Telas menores que 400px */
+@media (max-width: 400px) {
+  .card {
+    width: 90%;
+    max-width: 300px; /* Reduz a largura máxima ainda mais */
+  }
+
+  .img img {
+    width: 100%;
+    max-width: 150px; /* Reduz o tamanho máximo da imagem */
+  }
+
+  .img .btn {
+    font-size: 1rem;
+    height: 40px;
+  }
 }
