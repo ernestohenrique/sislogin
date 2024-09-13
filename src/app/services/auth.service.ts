@@ -27,13 +27,45 @@ export class AuthService {
   }
 
   // Método para login com Google
+  /*loginWithGoogle(): Promise<firebase.auth.UserCredential> {
+    this.afAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    return this.afAuth.getRedirectResult().then((result) => {
+      if (result.user) {
+        console.log("Usuário logado com Google:", result.user);
+        return result;
+      } else {
+        throw new Error("Usuário não autenticado.");
+      }
+    });
+  }*/
+  /*
   loginWithGoogle() {
+    // Inicia o processo de login com redirecionamento
+    this.afAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+
+    // Obtém o resultado do redirecionamento quando o usuário volta para a aplicação
+    this.afAuth
+      .getRedirectResult()
+      .then((result) => {
+        if (result.user) {
+          // Usuário está autenticado
+          console.log("Usuário logado com Google:", result.user);
+          this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
+        }
+      })
+      .catch((error) => {
+        // Trata erros de autenticação
+        this.handleAuthError(error);
+      });
+  }*/
+
+  /*loginWithGoogle() {
     return this.afAuth
       .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
       .then(() => {
         this.afAuth.getRedirectResult().then((result) => {
-          if (result.user) {
-            console.log("Usuário logado com Google:", result.user);
+          if (result) {
+            console.log("Usuário logado com Google:", result);
             this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
           }
         });
@@ -41,7 +73,9 @@ export class AuthService {
       .catch((error) => {
         this.handleAuthError(error); // Usa o método de tratamento de erros
       });
-    /*
+  }*/
+
+  loginWithGoogle() {
     return this.afAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
@@ -50,7 +84,7 @@ export class AuthService {
       })
       .catch((error) => {
         this.handleAuthError(error); // Usa o método de tratamento de erros
-      });*/
+      });
   }
 
   // Método de logout

@@ -49,6 +49,18 @@ export class LoginComponent {
   }
 
   // Função de login com Google
+  /*loginWithGoogle() {
+    this.authService
+      .loginWithGoogle()
+      .then(() => {
+        this.router.navigate(["/dashboard"]); // Redireciona após login
+        // Redirecione para a página desejada ou execute outras ações após login bem-sucedido
+      })
+      .catch((error) => {
+        this.errorMessage = "Erro ao fazer login com Google: " + error.message;
+        // console.log("Erro ao fazer login com Google:", error.message);
+      });
+  }*/
   loginWithGoogle() {
     this.authService.loginWithGoogle().catch((error) => {
       this.errorMessage = "Erro ao fazer login com Google: " + error.message;
