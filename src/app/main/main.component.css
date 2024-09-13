@@ -12,9 +12,10 @@ body {
   width: 90%; /* Deixe responsivo para telas menores */
   max-width: 500px; /* Limite o tamanho para telas grandes */
   background: none;
-  border-radius: 1rem;
+  border: none;
+  /*border-radius: 1rem;
   border: 2px solid white; /* Ajuste da borda */
-  padding: 20px;
+  /*padding: 20px;*/
 }
 
 .img {
