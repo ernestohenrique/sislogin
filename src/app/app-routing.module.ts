@@ -6,9 +6,8 @@ import { AuthGuard } from "./guards/auth.guard";
 import { MainComponent } from "./main/main.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/main", pathMatch: "full" },
   { path: "login", component: LoginComponent },
-  { path: "main", component: MainComponent },
+  { path: "", component: MainComponent },
   {
     path: "dashboard",
     component: DashboardComponent,
@@ -16,7 +15,7 @@ const routes: Routes = [
   },
 
   // Adiciona uma rota coringa para capturar todas as rotas não existentes
-  { path: "**", redirectTo: "/main" },
+  { path: "**", redirectTo: "" },
 ];
 
 @NgModule({
