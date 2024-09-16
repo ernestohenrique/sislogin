@@ -28,6 +28,7 @@
                     id="typeEmailX"
                     class="form-control form-control-lg"
                     #emailInput="ngModel"
+                    autocomplete="email"
                   />
                   <label class="form-label" for="typeEmailX">Email</label>
                   <!-- Validação de e-mail -->
@@ -80,7 +81,7 @@
               <p class="small mb-5 pb-lg-2">
                 <a class="text-white-50" href="#!">Esqueceu a senha?</a>
               </p>
-
+              <button id="loginButton">Login com Google</button>
               <!-- Botão de Login com Google
               <button (click)="loginWithGoogle()" class="btn btn-light">
                 Login com Google

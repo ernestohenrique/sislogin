@@ -1,97 +1,126 @@
 import { Injectable } from "@angular/core";
+import { GoogleAuthProvider } from "@angular/fire/auth";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
 import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+  userSubject = new BehaviorSubject<any>(null);
 
-  // Método de login com e-mail e senha
-  login(email: string, password: string) {
-    /*return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => {
-        throw this.handleAuthError(error); // Retorna a mensagem de erro apropriada
-      });*/
-    return this.afAuth.signInWithEmailAndPassword(email, password);
-    /*.then((result) => {
-        console.log("Usuário logado com e-mail e senha:", result.user);
-        this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
-      })
-      .catch((error) => {
-        this.handleAuthError(error); // Usa o método de tratamento de erros
-      });*/
+  constructor(private afAuth: AngularFireAuth, private router: Router) {
+    // Verifica o usuário na inicialização
+    this.getUserSubject();
   }
 
-  // Método para login com Google
-  /*loginWithGoogle(): Promise<firebase.auth.UserCredential> {
-    this.afAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-    return this.afAuth.getRedirectResult().then((result) => {
-      if (result.user) {
-        console.log("Usuário logado com Google:", result.user);
-        return result;
-      } else {
-        throw new Error("Usuário não autenticado.");
-      }
-    });
-  }*/
-  /*
-  loginWithGoogle() {
-    // Inicia o processo de login com redirecionamento
-    this.afAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-
-    // Obtém o resultado do redirecionamento quando o usuário volta para a aplicação
-    this.afAuth
-      .getRedirectResult()
+  // Método de login com e-mail e senha
+  login(email: string, password: string): Promise<any> {
+    return this.afAuth
+      .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        if (result.user) {
-          // Usuário está autenticado
-          console.log("Usuário logado com Google:", result.user);
-          this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
+        const user = result.user;
+        if (user) {
+          const userData = {
+            uid: user.uid,
+            email: user.email,
+            name: user.email || "Usuário sem nome",
+          };
+          this.setUserSubject(userData);
+          return userData;
+        } else {
+          return null; // Garante que sempre retorna um valor
         }
       })
       .catch((error) => {
-        // Trata erros de autenticação
-        this.handleAuthError(error);
-      });
-  }*/
-
-  /*loginWithGoogle() {
-    return this.afAuth
-      .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
-      .then(() => {
-        this.afAuth.getRedirectResult().then((result) => {
-          if (result) {
-            console.log("Usuário logado com Google:", result);
-            this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
-          }
-        });
-      })
-      .catch((error) => {
-        this.handleAuthError(error); // Usa o método de tratamento de erros
-      });
-  }*/
-
-  loginWithGoogle() {
-    return this.afAuth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((result) => {
-        console.log("Usuário logado com Google:", result.user);
-        this.router.navigate(["/dashboard"]); // Redireciona para a dashboard após login
-      })
-      .catch((error) => {
-        this.handleAuthError(error); // Usa o método de tratamento de erros
+        console.error("Erro ao fazer login:", error);
+        throw error;
       });
   }
 
+  // Método de login com Google
+  loginWithGoogle(): Promise<any> {
+    const provider = new GoogleAuthProvider();
+    return this.afAuth
+      .signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user;
+        if (user) {
+          const userData = {
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName || "Usuário sem nome",
+            photoURL: user.photoURL || null,
+          };
+          this.setUserSubject(userData);
+          return userData;
+        } else {
+          return null; // Garante que sempre retorna um valor
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao fazer login com Google:", error);
+        throw error;
+      });
+  }
+
+  // Armazena o usuário no BehaviorSubject e sessionStorage
+  setUserSubject(user: any) {
+    if (user) {
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        name: user.name || "Usuário sem nome",
+        photoURL: user.photoURL || null,
+      };
+      console.log("Saving user to sessionStorage:", userData);
+      sessionStorage.setItem("user", JSON.stringify(userData));
+      this.userSubject.next(userData);
+    } else {
+      console.warn("No user provided to setUserSubject");
+      sessionStorage.removeItem("user");
+      this.userSubject.next(null);
+    }
+  }
+
+  // Recupera o usuário do sessionStorage e atualiza o BehaviorSubject
+  getUserSubject() {
+    const user = sessionStorage.getItem("user");
+    if (user) {
+      console.log("Retrieved user from sessionStorage:", JSON.parse(user));
+      this.userSubject.next(JSON.parse(user));
+    } else {
+      console.warn("No user found in sessionStorage");
+    }
+  }
+
   // Método de logout
-  logout() {
-    return this.afAuth.signOut().then(() => {
-      this.router.navigate(["/login"]); // Redireciona para a tela de login após logout
+  logout(): void {
+    this.afAuth
+      .signOut()
+      .then(() => {
+        console.log("Usuário deslogado do Firebase");
+        this.clearBrowserData();
+        setTimeout(() => {
+          this.router.navigate([""]);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.error("Erro ao deslogar do Firebase:", error);
+      });
+  }
+
+  // Limpa cookies e armazenamento local
+  private clearBrowserData(): void {
+    document.cookie.split(";").forEach((cookie) => {
+      const [name] = cookie.split("=");
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
     });
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   // Verifica se o usuário está autenticado

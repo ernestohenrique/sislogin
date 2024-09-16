@@ -9,9 +9,11 @@ import { environment } from "../environments/environment";
 import { AngularFireModule } from "@angular/fire/compat";
 import { getAuth, provideAuth } from "@angular/fire/auth";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
-  declarations: [AppInicialComponent, LoginComponent],
+  declarations: [AppInicialComponent, LoginComponent, DashboardComponent],
   imports: [
     AppRoutingModule,
     ReactiveFormsModule,
@@ -20,6 +22,7 @@ import { AngularFireAuthModule } from "@angular/fire/compat/auth";
     AngularFireModule.initializeApp(environment.firebaseConfig),
     //provideAuth(() => getAuth()),
     AngularFireAuthModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppInicialComponent],

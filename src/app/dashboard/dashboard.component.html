@@ -4,5 +4,7 @@
     <div>
       <button class="btn btn-success" (click)="logout()">Logout</button>
     </div>
+    <p *ngIf="userName">Olá, {{ userName }}!</p>
+    <p *ngIf="!userName">Usuário não encontrado.</p>
   </div>
 </section>

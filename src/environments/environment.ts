@@ -1,11 +1,11 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyByYWL4lsn3YZGsRcPu7ih-0J60rNAZixE",
-    authDomain: "sistemateste-7a5ff.firebaseapp.com",
-    projectId: "sistemateste-7a5ff",
-    storageBucket: "sistemateste-7a5ff.appspot.com",
-    messagingSenderId: "673509130676",
-    appId: "1:673509130676:web:edda5329e72d82660b32e1",
+    apiKey: "AIzaSyCd3pGY7zp65cti5JCTIo0G5UwJ1QcQmvM",
+    authDomain: "sis-login-clinica.firebaseapp.com",
+    projectId: "sis-login-clinica",
+    storageBucket: "sis-login-clinica.appspot.com",
+    messagingSenderId: "985318501945",
+    appId: "1:985318501945:web:8871d94c2a0ac257e067e8",
   },
 };
