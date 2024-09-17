@@ -20,15 +20,6 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  /*ngOnInit() {
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        console.log("Usuário autenticado encontrado:", user);
-        this.router.navigate(["/dashboard"]); // Redireciona para dashboard
-      }
-    });
-  }*/
-
   // Função de login
   login(form: NgForm) {
     if (!form.valid) {
@@ -55,18 +46,6 @@ export class LoginComponent {
         this.errorMessage = this.authService.handleAuthError(error);
       });
   }
-
-  // Função de login com Google
-  /*loginWithGoogle() {
-    this.authService.loginWithGoogle().catch((error) => {
-      this.errorMessage = "Erro ao fazer login com Google: " + error.message;
-      console.log("Erro ao fazer login com Google:", error.message);
-    });
-  }*/
-  /*
-  loginWithGoogle(): void {
-    this.authService.loginWithGoogle();
-  }*/
 
   loginWithGoogle() {
     this.authService.loginWithGoogle().then(() => {
